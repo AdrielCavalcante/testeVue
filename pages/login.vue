@@ -16,16 +16,29 @@
 
   
   async function login() {
-    console.log(form.value);
-    await axios.get(`${apiUrl}/sanctum/csrf-cookie`);
-    await axios.post(`${apiUrl}/login`, {
-      email: form.value.email,
-      password: form.value.password
-    });
+    try {
+      console.log(form.value);
+      await axios.get(`${apiUrl}/sanctum/csrf-cookie`);
+      await axios.post(`${apiUrl}/login`, {
+        email: form.value.email,
+        password: form.value.password
+      });
 
-    let {data} = await axios.get(`${apiUrl}/api/user`);
-    console.log(data)
-    user.value = data;
+      let { data } = await axios.get(`${apiUrl}/api/user`);
+      console.log(data);
+      user.value = data;
+    } catch (error) {
+      if (error.response) {
+        // O servidor retornou uma resposta com um código de status diferente de 2xx
+        console.error('Erro durante o login:', error.response.data);
+      } else if (error.request) {
+        // A solicitação foi feita, mas não houve resposta do servidor
+        console.error('Erro de solicitação:', error.request);
+      } else {
+        // Ocorreu um erro ao configurar a solicitação
+        console.error('Erro ao configurar a solicitação:', error.message);
+      }
+    }
   }
 
   async function logout() {
