@@ -2,6 +2,8 @@
   import { ref } from 'vue';
   import axios from 'axios';
 
+  const apiUrl = process.env.API_URL;
+
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
 
@@ -15,19 +17,19 @@
   
   async function login() {
     console.log(form.value);
-    await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-    await axios.post("http://localhost:8000/login", {
+    await axios.get(`${apiUrl}/sanctum/csrf-cookie`);
+    await axios.post(`${apiUrl}/login`, {
       email: form.value.email,
       password: form.value.password
     });
 
-    let {data} = await axios.get("http://localhost:8000/api/user");
+    let {data} = await axios.get(`${apiUrl}/api/user`);
     console.log(data)
     user.value = data;
   }
 
   async function logout() {
-    await axios.post("http://localhost:8000/logout");
+    await axios.post(`${apiUrl}/logout`);
     user.value = null; // Limpar os dados do usuário após o logout
   }
    
