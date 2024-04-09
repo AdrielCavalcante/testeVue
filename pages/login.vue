@@ -2,12 +2,12 @@
   import { ref } from 'vue';
   import axios from 'axios';
 
-  const apiUrl = process.env.API_URL;
-
+  const apiUrl = import.meta.env.VITE_API_URL;
+  console.log(apiUrl)
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
 
-  const user = ref();
+  const user = ref(null);
     
   const form = ref({
     email: '',
