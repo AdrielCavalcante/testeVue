@@ -36,7 +36,9 @@
 
 <template>
 
-{{ user }}
+<div v-if="user">
+  {{ user }}
+</div>
 
 <div class="flex h-screen items-center justify-center">
         <button v-if="user" @click="logout()" class="bg-red-500 text-white font-semibold py-2 px-10 w-full rounded">
